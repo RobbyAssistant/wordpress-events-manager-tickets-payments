@@ -1,4 +1,4 @@
-wordpress-hypecal-events-tickets-payments
+wordpress-events-manager-tickets-payments
 ============================
 
 Extension of **Events Manager** Wordpress plugin to sell tickets, manage the bookings and boost your event's promotion.

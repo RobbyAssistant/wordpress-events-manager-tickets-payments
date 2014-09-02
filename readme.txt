@@ -55,7 +55,7 @@ Once installed, you can start selling events tickets straight away.
 2. Wordpress will help you upgrade automatically.
 
 == Frequently Asked Question ==
-You'll find the bug tracking in: [github.com issues](https://github.com/essfeed/wordpress-events-manager-tickets-payments/issues)
+You'll find the bug tracking in: [github.com issues](https://github.com/hypecal/wordpress-events-manager-tickets-payments/issues)
 
 
 == Screenshots ==
@@ -74,4 +74,4 @@ You'll find the bug tracking in: [github.com issues](https://github.com/essfeed/
 == Changelog ==
 
 = 1 =
-* submit first release
+* submit the first release
