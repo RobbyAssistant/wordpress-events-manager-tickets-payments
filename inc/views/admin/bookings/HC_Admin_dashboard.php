@@ -1,4 +1,4 @@
-<?php if ( !EM_HYPECAL_AUTHORIZED ){ die( "Hacking Attempt: ". @$_SERVER[ 'REMOTE_ADDR' ] ); }
+<?php if ( !EM_ROBBY_AUTHORIZED ){ die( "Hacking Attempt: ". @$_SERVER[ 'REMOTE_ADDR' ] ); }
 class HC_Admin_dashboard extends HC_Admin
 {
 	private static function set_data()
@@ -9,23 +9,23 @@ class HC_Admin_dashboard extends HC_Admin
 		$data_ = array(
 			array(
 				'completed' 	=> parent::$dashboard_[ 'EVENTS_MANAGER' ],
-				'title'			=> ( ( parent::$dashboard_[ 'EVENTS_MANAGER' ] )? __( "Events Manager is instaled!", 'dbem' ) : __( "Install Events Manager", 'dbem' ) ),
-				'description'	=> ( ( parent::$dashboard_[ 'EVENTS_MANAGER' ] )? "" : __( "You must install Events Manager Wordpress plugin to use Hypecal and start selling tickets for your events on your website.", 'dbem' ) ),
+				'title'			=> ( ( parent::$dashboard_[ 'EVENTS_MANAGER' ] )? __( "Events Manager is instaled!", 'em-robby' ) : __( "Install Events Manager", 'em-robby' ) ),
+				'description'	=> ( ( parent::$dashboard_[ 'EVENTS_MANAGER' ] )? "" : __( "You must install Events Manager Wordpress plugin to use ROBBY and start selling tickets for your events on your website.", 'em-robby' ) ),
 				'link_url'		=> ( ( self::$dashboard_[ 'EVENTS_MANAGER' ] )? HC_Constants::PLUGIN_WEBSITE : '' ),
-				'link_name'		=> __( "Events Manager", 'dbem' ),
+				'link_name'		=> __( "Events Manager", 'em-robby' ),
 				'hide_validate' => TRUE
 			),
 			array(
 				'completed' 	=> parent::$dashboard_[ 'ESS' ],
-				'title'			=> ( ( parent::$dashboard_[ 'ESS' ] == FALSE )? __( "Install the ESS Plugin", 'dbem' ) : __( "ESS Plugin installed!", 'dbem' ) ),
-				'description'	=> __( "The Events Manager ESS Plugin allows you to broadcast automatically your events to 3rd party websites. Your events published on WordPress will be sync with tickets seller portals. <a href='".HC_Constants::ESS_WEBSITE."' target='_blank'>plugin page</a>", 'dbem' ),
+				'title'			=> ( ( parent::$dashboard_[ 'ESS' ] == FALSE )? __( "Install the ESS Plugin", 'em-robby' ) : __( "ESS Plugin installed!", 'em-robby' ) ),
+				'description'	=> __( "The Events Manager ESS Plugin allows you to broadcast automatically your events to 3rd party websites. Your events published on WordPress will be sync with tickets seller portals. <a href='".HC_Constants::ESS_WEBSITE."' target='_blank'>plugin page</a>", 'em-robby' ),
 				'link_url'		=> $ess_search_plugin_url,
-				'link_name'		=> __( "Install ESS", 'dbem' ),
+				'link_name'		=> __( "Install ESS", 'em-robby' ),
 				'hide_validate' => TRUE
 			)
 		);
 
-		if ( parent::$dashboard_[ 'HYPECAL_SYNC' ] )
+		if ( parent::$dashboard_[ 'ROBBY_SYNC' ] )
 		{
 			$admin_event_url 			=  $admin_url . 'edit.php?post_type=' . ( defined( 'EM_POST_TYPE_EVENT' )? EM_POST_TYPE_EVENT : 'event' );
 			$admin_finance_url 			= "javascript:hc_admin_bookings.goto_tab(\"finance\");";
@@ -34,42 +34,42 @@ class HC_Admin_dashboard extends HC_Admin
 			array_push( $data_,
 				array(
 					'completed' 	=> parent::$dashboard_[ 'EVENTS' ],
-					'title'			=> ( ( parent::$dashboard_[ 'EVENTS' ] == FALSE )? __( "Create an Event", 'dbem' ) : __( "Events created!", 'dbem' ) ),
-					'description'	=> __( "You have to create an event in order to sell tickets. Your events must have a valide date, price and location. If you already have events created, edit them and set your tickets in the booking section.", 'dbem' ),
+					'title'			=> ( ( parent::$dashboard_[ 'EVENTS' ] == FALSE )? __( "Create an Event", 'em-robby' ) : __( "Events created!", 'em-robby' ) ),
+					'description'	=> __( "You have to create an event in order to sell tickets. Your events must have a valide date, price and location. If you already have events created, edit them and set your tickets in the booking section.", 'em-robby' ),
 					'link_url'		=> $admin_event_url,
-					'link_name'		=> ( ( self::$dashboard_[ 'HYPECAL_SYNC' ] )? __( "Manage Events", 'dbem' ) : "" ),
+					'link_name'		=> ( ( self::$dashboard_[ 'ROBBY_SYNC' ] )? __( "Manage Events", 'em-robby' ) : "" ),
 					'hide_validate' => TRUE
 				),
 				array(
 					'completed' 	=> parent::$dashboard_[ 'BANK' ],
-					'title'			=> ( ( parent::$dashboard_[ 'BANK' ] == FALSE )? __( "Bank Account info", 'dbem' ) : __( "Bank Account Completed!", 'dbem' ) ),
-					'description'	=> __( "In order to receive payouts for your tickets sold, you need to complete your bank account information. You will receive the payment 7 weekdays after your event endday.", 'dbem' ),
+					'title'			=> ( ( parent::$dashboard_[ 'BANK' ] == FALSE )? __( "Bank Account info", 'em-robby' ) : __( "Bank Account Completed!", 'em-robby' ) ),
+					'description'	=> __( "In order to receive payouts for your tickets sold, you need to complete your bank account information. You will receive the payment 7 weekdays after your event endday.", 'em-robby' ),
 					'link_url'		=> $admin_finance_url,
-					'link_name'		=> ( ( self::$dashboard_[ 'HYPECAL_SYNC' ] )? __( "Bank Settings", 'dbem' ) : "" ),
+					'link_name'		=> ( ( self::$dashboard_[ 'ROBBY_SYNC' ] )? __( "Bank Settings", 'em-robby' ) : "" ),
 					'hide_validate' => TRUE
 				),
 				array(
 					'completed' 	=> parent::$dashboard_[ 'TAXPAYER' ],
-					'title'			=> ( ( parent::$dashboard_[ 'TAXPAYER' ] == FALSE )? __( "Taxpayer info", 'dbem' ) : __( "Taxpayer Completed!", 'dbem' ) ),
-					'description'	=> __( "If you process over 200 orders and have not provided us with your taxpayer information, Hypecal is required to withhold on your payout until we receive this information. To avoid service interruptions, please fill out your taxpayer information now.", 'dbem' ),
+					'title'			=> ( ( parent::$dashboard_[ 'TAXPAYER' ] == FALSE )? __( "Taxpayer info", 'em-robby' ) : __( "Taxpayer Completed!", 'em-robby' ) ),
+					'description'	=> __( "If you process over 200 orders and have not provided us with your taxpayer information, ROBBY is required to withhold on your payout until we receive this information. To avoid service interruptions, please fill out your taxpayer information now.", 'em-robby' ),
 					'link_url'		=> $admin_finance_url,
-					'link_name'		=> ( ( self::$dashboard_[ 'HYPECAL_SYNC' ] )? __( "Taxpayer Settings", 'dbem' ) : "" ),
+					'link_name'		=> ( ( self::$dashboard_[ 'ROBBY_SYNC' ] )? __( "Taxpayer Settings", 'em-robby' ) : "" ),
 					'hide_validate' => TRUE
 				),
 				array(
 					'completed' 	=> parent::$dashboard_[ 'BILLING' ],
-					'title'			=> ( ( parent::$dashboard_[ 'HYPECAL_SYNC' ] == FALSE )? __( "Billing Address", 'dbem' ) : __( "Billing Address Completed!", 'dbem' ) ),
-					'description'	=> __( "You have to complete your billing address information in order to receive invoices for your ticket sold. The billing address will be also displayed on your tickets receipts.", 'dbem' ),
+					'title'			=> ( ( parent::$dashboard_[ 'ROBBY_SYNC' ] == FALSE )? __( "Billing Address", 'em-robby' ) : __( "Billing Address Completed!", 'em-robby' ) ),
+					'description'	=> __( "You have to complete your billing address information in order to receive invoices for your ticket sold. The billing address will be also displayed on your tickets receipts.", 'em-robby' ),
 					'link_url'		=> $admin_finance_url,
-					'link_name'		=> ( ( self::$dashboard_[ 'HYPECAL_SYNC' ] )? __( "Billing Address", 'dbem' ) : "" ),
+					'link_name'		=> ( ( self::$dashboard_[ 'ROBBY_SYNC' ] )? __( "Billing Address", 'em-robby' ) : "" ),
 					'hide_validate' => TRUE
 				),
 				array(
 					'completed' 	=> parent::$dashboard_[ 'CUSTOM_TICKETS' ],
-					'title'			=> ( ( parent::$dashboard_[ 'CUSTOM_TICKETS' ] == FALSE )? __( "Customize your Tickets", 'dbem' ) : __( "Ticket Customized!", 'dbem' ) ),
-					'description'	=> __( "You have to complete your billing address information in order to receive invoices for your ticket sold. The billing address will be also displayed on your tickets receipts.", 'dbem' ),
+					'title'			=> ( ( parent::$dashboard_[ 'CUSTOM_TICKETS' ] == FALSE )? __( "Customize your Tickets", 'em-robby' ) : __( "Ticket Customized!", 'em-robby' ) ),
+					'description'	=> __( "You have to complete your billing address information in order to receive invoices for your ticket sold. The billing address will be also displayed on your tickets receipts.", 'em-robby' ),
 					'link_url'		=> $admin_custom_tickets_url,
-					'link_name'		=> ( ( self::$dashboard_[ 'HYPECAL_SYNC' ] )? __( "Customize now", 'dbem' ) : "" ),
+					'link_name'		=> ( ( self::$dashboard_[ 'ROBBY_SYNC' ] )? __( "Customize now", 'em-robby' ) : "" ),
 					'hide_validate' => TRUE
 				)
 			);
@@ -79,11 +79,11 @@ class HC_Admin_dashboard extends HC_Admin
 		{
 			array_push( $data_,
 				array(
-					'completed' 	=> parent::$dashboard_[ 'HYPECAL_SYNC' ],
-					'title'			=> ( ( parent::$dashboard_[ 'HYPECAL_SYNC' ] )? __( "Hypecal Sync!", 'dbem' ) : __( "Sync your events with Hypecal.com", 'dbem' ) ),
-					'description'	=> __( "Hypecal.com gives you the ability to sell tickets, manage bookings, receive payments and boost your promotion. Your events and tickets are displayed on your Wordpress website and ticket reseller partners. More info on <a href='".HC_Constants::HYPECAL_WEBSITE."' target='_blank'>hypecal.com</a>", 'dbem' ),
+					'completed' 	=> parent::$dashboard_[ 'ROBBY_SYNC' ],
+					'title'			=> ( ( parent::$dashboard_[ 'ROBBY_SYNC' ] )? __( "ROBBY Sync!", 'em-robby' ) : __( "Sync your events with ROBBY.com", 'em-robby' ) ),
+					'description'	=> __( "ROBBY.com gives you the ability to sell tickets, manage bookings, receive payments and boost your promotion. Your events and tickets are displayed on your Wordpress website and ticket reseller partners. More info on <a href='".HC_Constants::ROBBY_WEBSITE."' target='_blank'>robby.ai</a>", 'em-robby' ),
 					'link_url'		=> "javascript:hc_admin_bookings.authorize();",
-					'link_name'		=> ( ( self::$dashboard_[ 'HYPECAL_SYNC' ] )? __( "Update Account", 'dbem' ) : __( "Sync now", 'dbem' ) ),
+					'link_name'		=> ( ( self::$dashboard_[ 'ROBBY_SYNC' ] )? __( "Update Account", 'em-robby' ) : __( "Sync now", 'em-robby' ) ),
 					'hide_validate' => FALSE
 				)
 			);
@@ -111,9 +111,9 @@ class HC_Admin_dashboard extends HC_Admin
 						</script>
 						<div class="checklist-chart" width="145" height="145"></div>
 						<p>
-							You've completed
-							<strong><?php echo intval( $completed );?> of our list of <?php echo intval( @count( $data_ ) );?></strong>
-							actions to activate the Hypecal plugin. Follow step by step each section and your tickets will be online in a minute!
+					       <?php _e( "You've completed", 'em-robby'); ?>
+						   <strong><?php echo intval( $completed ) . __( " of our list of ", 'em-robby') . intval( @count( $data_ ) ); ?></strong>
+						   <?php _e("actions to activate the ROBBY plugin. Follow step by step each section and your tickets will be online in a minute!", 'em-robby' ); ?>
 						</p>
 					</section>
 
@@ -121,13 +121,13 @@ class HC_Admin_dashboard extends HC_Admin
 						<ol><?php
 						if ( @count($data_) > 0 )
 						{
-							 foreach ( $data_ as $step_ )
+							foreach ( $data_ as $step_ )
 							{
-								?><li class="task <?php echo ( ( $step_[ 'completed' ] == TRUE )? 'complete' : '' );?>">
+								?><li class="task hc-validated <?php echo ( ( $step_[ 'completed' ] == TRUE )? 'complete' : '' );?>">
 									<h3><?php echo $step_[ 'title' ];?></h3><?php
 
-								  	echo ( ( ( $step_[ "description" ] != '' && $step_['completed'] == FALSE ) ||$step_[ "hide_validate" ] == FALSE )?
-								  		"<p>".$step_["description"]."</p>"
+								  	echo ( ( ( $step_[ 'description' ] != '' && $step_['completed'] == FALSE ) ||$step_[ "hide_validate" ] == FALSE )?
+								  		"<p>".$step_[ 'description' ]."</p>"
 										:
 										''
 									);

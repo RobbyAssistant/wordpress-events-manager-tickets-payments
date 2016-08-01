@@ -1,11 +1,11 @@
-<?php if ( !EM_HYPECAL_AUTHORIZED ){ die( "Hacking Attempt: ". @$_SERVER[ 'REMOTE_ADDR' ] ); }
+<?php if ( !EM_ROBBY_AUTHORIZED ){ die( "Hacking Attempt: ". @$_SERVER[ 'REMOTE_ADDR' ] ); }
 /**
   * Controller HC_Control_admin
   * Control the user interaction with Admin page
   *
-  * @author  	https://www.hypecal.com
-  * @copyright 	Copyright Hypecal.com.
-  * @license   	https://www.hypecal.com/terms
+  * @author  	https://www.robby.ai
+  * @copyright 	Copyright Robby.ai.
+  * @license   	https://www.robby.ai/terms
   */
 final class HC_Control_admin
 {
@@ -32,7 +32,7 @@ final class HC_Control_admin
 					break;
 
 				case "bank_account" :
-					$_POST[ $form ][ 'aggreement' ] = ( ( $_POST[ $form ][ 'aggreement' ] == 'on' )? HC_Constants::AGGREEMENT_YES : HC_Constants::AGGREEMENT_YES );
+					$_POST[ $form ][ 'aggreement' ] = ( ( (isset($_POST[ $form ][ 'aggreement' ]) ? $_POST[ $form ][ 'aggreement' ] : '') == 'on' )? HC_Constants::AGGREEMENT_YES : HC_Constants::AGGREEMENT_YES );
 					$r = $api->call( 'account/bank_account/update.json', $_POST[ $form ], 'POST' );
 					break;
 
@@ -74,7 +74,7 @@ final class HC_Control_admin
 			//d( $form, $_POST[ $form ], $r, $HC_Notices );
 
 			if ( strlen( $HC_Notices->get_errors() ) <= 0 && strlen( $HC_Notices->get_infos() ) <= 0 )
-				$HC_Notices->add_info( __( sprintf( "The %s page have been save correctly.", str_replace( '_', ' ', $form ) ), 'dbem' ) );
+				$HC_Notices->add_info( __( sprintf( "The %s page have been save correctly.", str_replace( '_', ' ', $form ) ), 'em-robby' ) );
 		}
 	}
 

@@ -1,12 +1,12 @@
-<?php if ( !EM_HYPECAL_AUTHORIZED ){ die( "Hacking Attempt: ". @$_SERVER[ 'REMOTE_ADDR' ] ); }
+<?php if ( !EM_ROBBY_AUTHORIZED ){ die( "Hacking Attempt: ". @$_SERVER[ 'REMOTE_ADDR' ] ); }
 /**
   * Model HC_HC_OAuth2
-  * Bind and bridge the connection to the Hypecal server throught OAuth2.
+  * Bind and bridge the connection to the ROBBY server through OAuth2.
   * Access Web Services to manage account settings, payments, tickets and so on.
   *
-  * @author  	https://www.hypecal.com
-  * @copyright 	Copyright Hypecal.com
-  * @license   	https://www.hypecal.com/terms
+  * @author  	https://www.robby.ai
+  * @copyright 	Copyright Robby.ai
+  * @license   	https://www.robby.ai/terms
   */
 
 define("OAUTH2_TOKEN_PARAM_NAME", "oauth_token");
@@ -14,9 +14,9 @@ define("OAUTH2_TOKEN_PARAM_NAME", "oauth_token");
 class HC_OAuth2
 {
 	var $error 							= '';
-	var $debug 							= FALSE;
-	var $debug_http 					= FALSE;
-	var $exit 							= FALSE;
+	var $debug                          = false;
+    var $debug_http                     = false;
+    var $exit                           = false;
 	var $debug_output 					= '';
 	var $debug_prefix 					= 'OAuth client: ';
 	var $server 						= '';
@@ -27,7 +27,7 @@ class HC_OAuth2
 	var $append_state_to_redirect_uri 	= '';
 	var $access_token_url 				= '';
 	var $oauth_version 					= '2.0';
-	var $url_parameters 				= FALSE;
+	var $url_parameters 				= false;
 	var $authorization_header 			= true;
 	var $token_request_method 			= 'GET';
 	var $signature_method 				= 'HMAC-SHA1';
@@ -51,7 +51,7 @@ class HC_OAuth2
 	var $access_token_error 			= '';
 	var $authorization_error 			= '';
 	var $response_status 				= 0;
-	var $oauth_user_agent	 			= 'PHP-OAuth-API (https://www.hypecal.com/oauth-api $Revision: 1.90 $)';
+	var $oauth_user_agent	 			= 'PHP-OAuth-API (https://robby.ai/add-events/api/ $Revision: 1.90 $)';
 	var $session_started 				= FALSE;
 
 

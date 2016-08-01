@@ -1,10 +1,10 @@
-<?php if ( !EM_HYPECAL_AUTHORIZED ){ die( "Hacking Attempt: ". @$_SERVER[ 'REMOTE_ADDR' ] ); }
+<?php if ( !EM_ROBBY_AUTHORIZED ){ die( "Hacking Attempt: ". @$_SERVER[ 'REMOTE_ADDR' ] ); }
 class HC_Admin_orders extends HC_Admin
 {
 	public static function section()
 	{
-		$order_status 	= @$_POST[ 'orders-list-status' ];
-		$order_type		= @$_POST[ 'orders-list-type'   ];
+		$order_status 	= (isset($_POST[ 'orders-list-status' ] ) ? $_POST[ 'orders-list-status' ] : '');
+		$order_type		= (isset($_POST[ 'orders-list-type' ]   ) ? $_POST[ 'orders-list-type'   ] : '');
 
 		?><section class="em-menu-orders em-menu-group" style="display:none;">
 
@@ -55,7 +55,7 @@ class HC_Admin_orders extends HC_Admin
 
 			<form id="form_tickets_list" method="post" enctype='multipart/form-data' target="_self" onsubmit="hc.loader(true);">
 				<section class="nav_btns" style="display:none;">
-					<a class="btn cancel tooltip" title="<?php _e('Fee calculator', 'dbem'); ?>" onclick="hc.account.tickets.popup_fee_calculator();"><i class="fa fa-credit-card"></i></a>
+					<a class="btn cancel tooltip" title="<?php _e('Fee calculator', 'em-robby'); ?>" onclick="hc.account.tickets.popup_fee_calculator();"><i class="fa hc-credit-card"></i></a>
 					<span class='bt_tableTools'></span>
 					<input type="hidden" id="orders-list-status" name="orders-list-status" value="<?php echo ( ( strlen( $order_status ) > 0 )? $order_status : '' );?>"/>
 					<input type="hidden" id="orders-list-type" name="orders-list-type" value="<?php echo ( ( strlen( $order_type ) > 0 )? $order_type:'');?>"/>

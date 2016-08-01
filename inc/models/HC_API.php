@@ -1,11 +1,11 @@
-<?php if ( !EM_HYPECAL_AUTHORIZED ){ die( "Hacking Attempt: ". @$_SERVER[ 'REMOTE_ADDR' ] ); }
+<?php if ( !EM_ROBBY_AUTHORIZED ){ die( "Hacking Attempt: ". @$_SERVER[ 'REMOTE_ADDR' ] ); }
 /**
   * Controller HC_API
-  * Control user interaction with the Hypecal OAuth2 API
+  * Control user interaction with the ROBBY OAuth2 API
   *
-  * @author  	Hypecal.com
-  * @copyright 	Copyright Hypecal.com
-  * @link    	https://www.hypecal.com/terms/
+  * @author  	Robby.ai
+  * @copyright 	Copyright Robby.ai
+  * @link    	https://www.robby.ai/terms/
   */
 final class HC_API extends HC_OAuth2
 {
@@ -14,11 +14,11 @@ final class HC_API extends HC_OAuth2
 	var $redirect_uri		= '';
 
 	var $oauth_version 		= '2.0';
-	var $dialog_url			= 'https://www.hypecal.com/authorize?response_type=code&client_id={CLIENT_ID}&redirect_uri={REDIRECT_URI}&scope={SCOPE}&state={STATE}';
-	var $access_token_url 	= 'https://www.hypecal.com/access_token';
+	var $dialog_url			= 'https://www.robby.ai/authorize?response_type=code&client_id={CLIENT_ID}&redirect_uri={REDIRECT_URI}&scope={SCOPE}&state={STATE}';
+	var $access_token_url 	= 'https://www.robby.ai/access_token';
 	var $scope				= '';
 
-	const ENDPOINT			= 'https://www.hypecal.com/api/v1/';
+	const ENDPOINT			= 'https://www.robby.ai/api/v1/';
 
 	var $debug 				= TRUE;
 	var $debug_http 		= TRUE;
@@ -114,7 +114,7 @@ final class HC_API extends HC_OAuth2
 		return $success;
 	}
 
-	public static function call( $service, Array $params_ = NULL, $action = 'GET', $contentType='application/json' )
+	public static function call( $service, Array $params_ = NULL, $action = 'GET', $contentType = 'application/json' )
 	{
 		$el = NULL;
 
@@ -142,7 +142,7 @@ final class HC_API extends HC_OAuth2
 
 				//d( $_FILES[ 'files' ] );
 
-				if ( @count( @$_FILES[ 'files' ] ) > 0 )
+				if ( @count( (isset($_FILES[ 'files' ])? $_FILES[ 'files' ] : array()) ) > 0 )
 				{
 					$action = 'POST';
 					$options_[ 'RequestContentType' ] = 'multipart/form-data';
@@ -165,6 +165,7 @@ final class HC_API extends HC_OAuth2
 					$options_,
 					$el
 				);
+                //ddd($el);
 			}
 		}
 		return $el;
@@ -199,7 +200,9 @@ final class HC_API extends HC_OAuth2
 		$_POST[ 'language' ] = strtolower( $l{0}.$l{1} );
 
 		if ( strlen( @$_POST[ 'webservice' ] ) )
+        {
 			$r = self::call( $_POST[ 'webservice' ], $_POST, 'POST', 'text' );
+        }
 
 		echo $r;
 		die;

@@ -1,25 +1,26 @@
 <?php
-if ( !defined( 'EM_HYPECAL_PROTOCOL' 	) ) define( 'EM_HYPECAL_PROTOCOL',  'http'.( ( @$_SERVER[ 'HTTPS' ] == 'on' )? 's' : ''  ) . '://' );
-if ( !defined( 'EM_HYPECAL_AUTHORIZED' 	) ) define( 'EM_HYPECAL_AUTHORIZED', TRUE );
-if ( !defined( 'EM_HYPECAL_NAME' 		) ) define( 'EM_HYPECAL_NAME', 		 trim( str_replace( '/inc/config', '', dirname( plugin_basename( __FILE__ ) ) ), '/' ) );
-if ( !defined( 'EM_HYPECAL_DIR'  		) ) define( 'EM_HYPECAL_DIR', 		 WP_PLUGIN_DIR . '/' . EM_HYPECAL_NAME );
-if ( !defined( 'EM_HYPECAL_DIR_URI'  	) ) define( 'EM_HYPECAL_DIR_URI', 	 trailingslashit( str_replace( '/inc/config', '', plugins_url( '', __FILE__ ) ) ) );
-if ( !defined( 'EM_HYPECAL_URL'  		) ) define( 'EM_HYPECAL_URL', 		 WP_PLUGIN_URL . '/' . EM_HYPECAL_NAME );
+if ( !defined( 'EM_ROBBY_PROTOCOL' 	   ) ) define( 'EM_ROBBY_PROTOCOL',    'http'.( ( @$_SERVER[ 'HTTPS' ] == 'on' )? 's' : ''  ) . '://' );
+if ( !defined( 'EM_ROBBY_AUTHORIZED'   ) ) define( 'EM_ROBBY_AUTHORIZED',  TRUE );
+if ( !defined( 'EM_ROBBY_NAME' 		   ) ) define( 'EM_ROBBY_NAME', 	   trim( str_replace( '/inc/config', '', dirname( plugin_basename( __FILE__ ) ) ), '/' ) );
+if ( !defined( 'EM_ROBBY_DIR'  		   ) ) define( 'EM_ROBBY_DIR', 		   WP_PLUGIN_DIR . '/' . EM_ROBBY_NAME );
+if ( !defined( 'EM_ROBBY_DIR_URI'  	   ) ) define( 'EM_ROBBY_DIR_URI', 	   trailingslashit( str_replace( '/inc/config', '', plugins_url( '', __FILE__ ) ) ) );
+if ( !defined( 'EM_ROBBY_URL'  		   ) ) define( 'EM_ROBBY_URL', 		   WP_PLUGIN_URL . '/' . EM_ROBBY_NAME );
 
-if ( !defined( 'EM_HYPECAL_VERSION'		) ) define( 'EM_HYPECAL_VERSION', 	 '0.1' );
-if ( !defined( 'EM_HYPECAL_VERSION_KEY'	) ) define( 'EM_HYPECAL_VERSION_KEY','hypecal_version' );
+if ( !defined( 'EM_ROBBY_VERSION'	   ) ) define( 'EM_ROBBY_VERSION', 	   '1.4.1' );
+if ( !defined( 'EM_ROBBY_VERSION_KEY'  ) ) define( 'EM_ROBBY_VERSION_KEY', 'robby_version' );
+if ( !defined( 'EM_ROBBY_DEBUG'        ) ) define( 'EM_ROBBY_DEBUG',       FALSE );
 
-if ( !defined( 'WP_CACHE' 				) ) define('WP_CACHE', 				 TRUE );
+if ( !defined( 'WP_CACHE' 			   ) ) define('WP_CACHE', 			   TRUE );
 
 abstract class HC_Constants
 {
-	const NAME 						= 'em-hypecal';
-	const EM_HC_ARGUMENT 			= 'hypecal';
+	const NAME 						= 'em-robby';
+	const EM_HC_ARGUMENT 			= 'robby';
 
 	const PLUGIN_WEBSITE			= 'http://wp-events-plugin.com';
 	const ESS_WEBSITE				= 'http://wordpress.org/plugins/events-manager-ess/';
-	const HYPECAL_WEBSITE			= 'https://www.hypecal.com';
-	const HYPECAL_DEV				= 'http://localhost:8080';
+	const ROBBY_WEBSITE			    = 'https://www.robby.ai';
+	const ROBBY_DEV				    = 'http://localhost:8080';
 
 	const DEFAULT_CURRENCY			= 'USD';
 

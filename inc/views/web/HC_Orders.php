@@ -1,4 +1,4 @@
-<?php if ( !EM_HYPECAL_AUTHORIZED ){ die( "Hacking Attempt: ". @$_SERVER[ 'REMOTE_ADDR' ] ); }
+<?php if ( !EM_ROBBY_AUTHORIZED ){ die( "Hacking Attempt: ". @$_SERVER[ 'REMOTE_ADDR' ] ); }
 class HC_Orders
 {
 	const WIDGET = '/api/v1/widgets/orders.json';
@@ -9,7 +9,7 @@ class HC_Orders
 
 	private static function get_data()
 	{
-		self::$domain = ( ( $_SERVER[ 'HTTP_HOST' ] == 'localhost' )? HC_Constants::HYPECAL_DEV : HC_Constants::HYPECAL_WEBSITE );
+		self::$domain = ( ( $_SERVER[ 'HTTP_HOST' ] == 'localhost' )? HC_Constants::ROBBY_DEV : HC_Constants::ROBBY_WEBSITE );
 
 		if ( @count( HC_Database::get() ) > 0 )
 		{
@@ -53,18 +53,18 @@ class HC_Orders
 			( ( $EM_Event->event_rsvp )?
 				$bookingform
 				:
-				"<h3>".__('Bookings','dbem') . "</h3>" .
+				"<h3>".__('Bookings','em-robby') . "</h3>" .
 				self::get_contact_button( self::$event_ids->encryptedID )
 			) .
 			HC_Elements::get_popup_container() .
 			HC_Elements::get_page_loader() .
-			HC_Elements::get_hypecal_signature();
+			HC_Elements::get_robby_signature();
 	}
 
 	public static function get_contact_button( $encryptID )
 	{
-		return "<p>" . __('Bookings have closed','dbem') . "</p>" .
-		"<button type='button' class='btn confirm contact_organizer_link' data-key='". $encryptID . "'>Contact Organizer</button>";
+		return "<p>" . __('Bookings have closed','em-robby') . "</p>" .
+		"<button type='button' class='btn confirm contact_organizer_link' data-key='". $encryptID . "'>" . __('Contact Organizer', 'em-robby'). "</button>";
 	}
 
 }

@@ -1,12 +1,12 @@
-<?php if ( !EM_HYPECAL_AUTHORIZED ){ die( "Hacking Attempt: ". @$_SERVER[ 'REMOTE_ADDR' ] ); }
+<?php if ( !EM_ROBBY_AUTHORIZED ){ die( "Hacking Attempt: ". @$_SERVER[ 'REMOTE_ADDR' ] ); }
 /**
-  * Model Hypecal_Database
+  * Model HC_Database
   * Connecting interface with the database
   *
-  * @author  	Hypecal.com
-  * @copyright 	Copyright Hypecal.com
-  * @license 	https://www.hypecal.com/terms/
-  * @link		https://www.hypecal.com
+  * @author  	Robby.ai
+  * @copyright 	Copyright Robby.ai
+  * @license 	https://www.robby.ai/terms/
+  * @link		https://www.robby.ai
   **/
 final class HC_Database
 {

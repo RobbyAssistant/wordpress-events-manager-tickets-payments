@@ -1,22 +1,22 @@
-<?php if ( !EM_HYPECAL_AUTHORIZED ){ die( "Hacking Attempt: ". @$_SERVER[ 'REMOTE_ADDR' ] ); }
+<?php if ( !EM_ROBBY_AUTHORIZED ){ die( "Hacking Attempt: ". @$_SERVER[ 'REMOTE_ADDR' ] ); }
 /**
   * View HC_Elements
-  * Container of recyclebale graphical sub-elements used within the Hypecal plugin
+  * Container of recyclebale graphical sub-elements used within the ROBBY plugin
   *
-  * @author  	Hypecal.com
-  * @copyright 	Copyright to Hypecal.com.
-  * @license   	https://www.hypecal.com/terms/
+  * @author  	Robby.ai
+  * @copyright 	Copyright to Robby.ai.
+  * @license   	https://www.robby.ai/terms/
   **/
 final class HC_Elements
 {
 	function __construct(){}
 
-	public static function get_hypecal_signature()
+	public static function get_robby_signature()
 	{
 		return "<p style='color:rgb(153,153,153);font-size:11px;padding:0;margin:0;display:inline;'>" .
-			__( "Event promotion boosted by ", 'dbem' ) .
-			" <a href='".HC_Constants::HYPECAL_WEBSITE."' target='_blank' alt='" . __( "Hypecal Events Search Engine", 'dbem' )."'>" .
-				__( "Hypecal", 'dbem' ) .
+			__( "Event promotion boosted by ", 'em-robby' ) .
+			" <a href='".HC_Constants::ROBBY_WEBSITE."' target='_blank' alt='" . __( "Robby Events Search Engine / Calendar Assistant", 'em-robby' )."'>" .
+				__( "Robby", 'em-robby' ) .
 			"</a>".
 		"</p>";
 	}
@@ -25,7 +25,7 @@ final class HC_Elements
 	{
 		global $EM_Event;
 
-		return $content . self::get_hypecal_signature();
+		return $content . self::get_robby_signature();
 	}
 
 
@@ -88,8 +88,8 @@ final class HC_Elements
 	public static function get_explain_block( $txt='' )
 	{
 		?><div class="hc_explain">
-			<img src="<?php echo EM_HYPECAL_URL. '/assets/img/info_icon_30x30.png'; ?>" alt="<?php _e('Info','dbem');?>" />
-			<p><?php _e( $txt, "dbem" ); ?></p>
+			<img src="<?php echo EM_ROBBY_URL. '/assets/img/info_icon_30x30.png'; ?>" alt="<?php _e('Info','em-robby');?>" />
+			<p><?php _e( $txt, "em-robby" ); ?></p>
 		</div><?php
 	}
 
@@ -120,9 +120,9 @@ final class HC_Elements
 	public static function get_events_manager_required()
 	{
 		?><div class="update-nag" style="width:95%;">
-			<?php _e('Events Manager is required to use the event payment plugin. Please install it first and reload this page: ','dbem'); ?>
+			<?php _e('Events Manager is required to use the event payment plugin. Please install it first and reload this page: ','em-robby'); ?>
 			<a href="<?php echo HC_Constants::PLUGIN_WEBSITE; ?>" target="_blank">
-				<?php _e( 'Events Manager', 'dbem' ); ?>
+				<?php _e( 'Events Manager', 'em-robby' ); ?>
 			</a>
 		</div><?php
 		die;
@@ -132,7 +132,7 @@ final class HC_Elements
 	public static function get_php_curl_required()
 	{
 		?><div class="update-nag">
-			<?php _e( "The library PHP cURL must be installed on your server ", 'dbem' ); ?>
+			<?php _e( "The library PHP cURL must be installed on your server ", 'em-robby' ); ?>
 		</div><?php
 		die;
 	}
@@ -144,7 +144,7 @@ final class HC_Elements
 
 	public static function get_info( $text )
 	{
-		?><img src="<?php echo EM_HYPECAL_DIR_URI . "assets/img/info_icon_30x30.png";?>" width="14" height="14" class="tooltip" title="<?php echo $text;?>"/><?php
+		?><img src="<?php echo EM_ROBBY_DIR_URI . "assets/img/info_icon_30x30.png";?>" width="14" height="14" class="tooltip" title="<?php echo $text;?>"/><?php
 	}
 
 	public static function get_map_tooltip( $event = NULL )

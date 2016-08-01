@@ -1,23 +1,23 @@
 wordpress-events-manager-tickets-payments
 ============================
 
-Hypecal extension for the Events Manager plugin to sell tickets, manage bookings and registrations and boost your event's promotion without complex configuration.
+Robby extension for the Events Manager plugin to sell tickets, manage bookings and registrations and boost your event's promotion without complex configuration.
 
 == Description ==
 
 **[EVENTS MANAGER](http://wordpress.org/plugins/events-manager/) PLUGIN IS REQUIRED TO BE INSTALLED FIRST**
 **[EVENTS MANAGER - ESS](http://wordpress.org/plugins/events-manager-ess/) PLUGIN IS REQUIRED TO BE INSTALLED FIRST**
 
-The **Hypecal** plugin for **Events Manager** add a ticketing service and a payment interface to your website.
-**Hypecal** is a ticketing servcice that allows you to receive in one click, payments for your tickets sold.
-This service cost only if a ticket is sold (2.9% / ticket sold). No contract, no subscription fee, no complex settings.
-Your events are manage from your WordPress **Events Manager** interface and the tickets payment is connected to your **Hypecal** account.
+The **Robby** plugin for **Events Manager** add a ticketing service and a payment interface to your website.
+**Robby** is a ticketing servcice that allows you to receive in one click, payments for your tickets sold.
+This service cost only if a ticket is sold (1.4%  + 0.25€ for European cards ; 2.9%  + 0.25€ for non-European cards). No contract, no subscription fee, no complex settings.
+Your events are manage from your WordPress **Events Manager** interface and the tickets payment is connected to your **Robby** account.
 
-If your tickets cost $10 you will make $9.7. You receive the amount 7 business days after the end of your event.
+ **If your tickets cost $10 you will make $9.7. You receive the amount 7 business days after the end of your event.**
 
 
 **Plugin's Official website**
-Hypecal : [https://www.hypecal.com](https://www.hypecal.com)
+Robby : [https://www.robby.ai](https://www.robby.ai)
 
 
 = FEATURES =
@@ -34,7 +34,9 @@ Hypecal : [https://www.hypecal.com](https://www.hypecal.com)
 * Refund purchased tickets
 * And much more!
 
-* More info about Hypecal.com prices, terms and privacy on [https://www.hypecal.com/terms/](https://www.hypecal.com/terms)
+* More info about Robby prices, terms and privacy on [https://www.robby.ai/terms/](https://www.robby.ai/terms)
+
+
 
 
 

@@ -1,28 +1,30 @@
-=== Hypecal Ticketing System for Events Manager ===
-Contributors: hypecal
+=== Robby Ticketing System for Events Manager ===
+Contributors: robbyassistant, essfeed, Brice Pissard
 Tags: events, event, event registration, ticket, tickets, ticketing, payment, sell,registration,attendees,event calendar, events calendar, event management, events manager,locations, maps,tax,vat,taxpayer,bank,bank transfer,calendar,happenings, concerts, meetings, festivals,sport,diary,availability,eventbrite,eventful,meetup,facebook,twitter,feedbuzz,foursquare,timeout,event publishers,google,indexation,high ranking,visibility,broadcast, schedule, SEO, booking,billet,billete,places, venue, upcoming, diary, ical, icalendar, organizer, planner,social events,social gatherings,cultural,museum,expo,cinema,movies,theatre,gallery,show,performance,concert,jazz,festival,exhibition,contact,CRM,system,ticket system,ticketing service,door control,qrcode,barcode,ticket scanner,appointments, seminar, summit,wooevents, workshop,woocommerce,e-tickets,widget,customer,buyer,seller,mastercard,visa,paypal,dinners,google checkout,donations
 Requires at least: 3.2.1
-Tested up to: 4.1.1
-Stable tag: 1.3.2
+Tested up to: 4.5.3
+Stable tag: 1.4.1
+Text Domain: em-robby
+Domain Path: /languages
 License: GPLv2 or later
 
-Hypecal extension for the Events Manager plugin to sell tickets, manage bookings and registrations and boost your event's promotion.
+Robby extension for the Events Manager plugin to sell tickets, manage bookings and registrations and boost your event's promotion.
 
 == Description ==
 
 **[EVENTS MANAGER](http://wordpress.org/plugins/events-manager/) PLUGIN IS REQUIRED TO BE INSTALLED FIRST**
 **[EVENTS MANAGER - ESS](http://wordpress.org/plugins/events-manager-ess/) PLUGIN IS REQUIRED TO BE INSTALLED FIRST**
 
-The **Hypecal** plugin for **Events Manager** add a ticketing service and a payment interface to your website.
-**Hypecal** is a ticketing service that allows you to receive in one click, payments for your tickets sold.
-This service cost only if a ticket is sold (2.9% / ticket sold). No contract, no subscription fee, no complex settings.
-Your events are manage from your WordPress **Events Manager** interface and the tickets payment is connected to your **Hypecal** account.
+The **Robby** plugin for **Events Manager** add a ticketing service and a payment interface to your website.
+**Robby** is a ticketing service that allows you to receive in one click, payments for your tickets sold.
+This service cost only if a ticket is sold (1.4%  + 0.25€ for European cards ; 2.9%  + 0.25€ for non-European cards). No contract, no subscription fee, no complex settings.
+Your events are manage from your WordPress **Events Manager** interface and the tickets payment is connected to your **Robby** account.
 
 If your tickets cost $10 you will make $9.7. You will receive the amount 7 business days after the end of your event.
 
 
 **Plugin's Official website**
-Hypecal : [https://www.hypecal.com](https://www.hypecal.com)
+Robby : [https://www.robby.ai](https://www.robby.ai)
 
 
 = FEATURES =
@@ -39,12 +41,12 @@ Hypecal : [https://www.hypecal.com](https://www.hypecal.com)
 * Refund purchased tickets
 * And much more!
 
-* More info about Hypecal.com prices, terms and privacy on [https://www.hypecal.com/terms/](https://www.hypecal.com/terms)
+* More info about Robby prices, terms and privacy on [https://www.robby.ai/terms/](https://www.robby.ai/terms)
 
 
 == Installation ==
 
-**Events Manager**  **Hypecal** Extension requiered **[Events Manager](http://wordpress.org/plugins/events-manager/)** plugin to be installed, then it works like any standard WordPress plugin, and requires little configuration. If you get stuck, visit the our documentation and support forums.
+**Events Manager**  **Robby** Extension requiered **[Events Manager](http://wordpress.org/plugins/events-manager/)** plugin to be installed, then it works like any standard WordPress plugin, and requires little configuration. If you get stuck, visit the our documentation and support forums.
 Whenever installing or upgrading any plugin, or even Wordpress itself, it is always recommended you back up your database first!
 
 = Installing =
@@ -67,7 +69,7 @@ Once installed, you can start selling event's tickets straight away.
 2. Wordpress will help you upgrade automatically.
 
 == Frequently Asked Question ==
-You'll find the bug tracking in: [github.com issues](https://github.com/hypecal/wordpress-events-manager-tickets-payments/issues)
+You'll find the bug tracking in: [github.com issues](https://github.com/RobbyAssistant/wordpress-events-manager-tickets-payments/issues)
 
 
 == Screenshots ==
@@ -84,6 +86,15 @@ You'll find the bug tracking in: [github.com issues](https://github.com/hypecal/
 
 
 == Changelog ==
+
+= 1.4.1 =
+* Setup the translation framework to allows text conversion by thirdparty.
+
+= 1.4 =
+* Change top images.
+* Change the name from Hypecal to Robby.
+* Update Wordpress jQuery dependencies.
+* Update the ESS-PHP library from GitHub.
 
 = 1.3 =
 * debug the configuration file load on windows server (GitHub #issue-76162895)

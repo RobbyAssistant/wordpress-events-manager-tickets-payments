@@ -88,11 +88,11 @@ var hc_admin_bookings =
 
 	handle_tab_selected : function()
 	{
-		var navUrl = document.location.toString();
+		var navUrl = document.location.toString(), nav_tab;
 
 		if ( navUrl.match( '#' ) )
 		{
-			var nav_tab = navUrl.split( '#' )[ 1 ].split( ':' );
+			nav_tab = navUrl.split( '#' )[ 1 ].split( ':' );
 
 			jQuery( 'a#em-menu-' + ( ( nav_tab == 'dashboard' )? 'dashboard' : nav_tab ) ).trigger( 'click' );
 		}
@@ -128,10 +128,11 @@ var hc_admin_bookings =
 			selected_tab_index = 1;
 		});
 
-		var navUrl = document.location.toString();
+		var navUrl = document.location.toString(), nav_tab;
+
 		if ( navUrl.match( '#' ) )  //anchor-based navigation
 		{
-			var nav_tab = navUrl.split('#')[1].split(':');
+			nav_tab = navUrl.split('#')[1].split(':');
 
 			$('a#em-menu-' + nav_tab[0]).trigger('click');
 
@@ -153,16 +154,17 @@ var hc_admin_bookings =
 		$( 'input[type="submit"]' ).off();
 		$( 'input[type="submit"]' ).on( 'click', function()
 		{
-			var el = $(this).parents('.postbox').first();
-			var docloc = document.location.toString().split('#');
-			var newloc = docloc[0];
+			var el = $(this).parents('.postbox').first(),
+				docloc = document.location.toString().split('#'),
+				newloc = docloc[0], nav_tab;
 
-			if ( docloc.length > 1 ){
-				var nav_tab = docloc[1].split(':');
+			if ( docloc.length > 1 )
+			{
+				nav_tab = docloc[1].split(':');
 				newloc = newloc + "#" + nav_tab[0];
-				if( el.prop('id') ){
+
+				if ( el.prop( 'id' ) )
 					newloc = newloc + ":" + el.prop('id').replace('em-opt-','');
-				}
 			}
 			document.location = newloc;
 		});
@@ -202,4 +204,3 @@ var hc_admin_bookings =
 
 };
 jQuery( document ).ready( function( e ) { hc_admin_bookings.init(e); });
-

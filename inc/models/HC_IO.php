@@ -1,11 +1,11 @@
-<?php if ( !EM_HYPECAL_AUTHORIZED ){ die( "Hacking Attempt: ". @$_SERVER[ 'REMOTE_ADDR' ] ); }
+<?php if ( !EM_ROBBY_AUTHORIZED ){ die( "Hacking Attempt: ". @$_SERVER[ 'REMOTE_ADDR' ] ); }
 /**
   * Model HC_IO (Input/Output)
   * Manage the I/O between user, local server and web-services
   *
-  * @author  	Hypecal.com
-  * @copyright 	Copyright Hypecal.com
-  * @license   	https://www.hypecal.com/terms/
+  * @author  	Robby.ai
+  * @copyright 	Copyright Robby.ai
+  * @license   	https://www.robby.ai/terms/
   */
 final class HC_IO
 {
@@ -21,13 +21,13 @@ final class HC_IO
 
 		if ( is_admin() )
 		{
-			add_action( 'admin_menu', 	 				array( 'HC_IO',				'set_submenu' 			) );
-			add_action( "wp_ajax_get_popup_content",	array( 'HC_API', 			'get_popup_content' 	) );
-			add_action( "wp_ajax_get_webservice",		array( 'HC_API', 			'get_webservice' 		) );
+			add_action( 'admin_menu', 	 				    array( 'HC_IO',	        'set_submenu' 			) );
+			add_action( "wp_ajax_get_popup_content",	    array( 'HC_API', 		'get_popup_content' 	) );
+			add_action( "wp_ajax_get_webservice",		    array( 'HC_API', 		'get_webservice' 		) );
 
-			add_filter( 'em_deactivate', 				array( 'EM_HYPECAL', 		'set_deactivation' 		) );
-			add_action( 'em_events_admin_bookings_footer',array( 'HC_Admin',		'get_tickets_form' 		) );
-			add_action( 'admin_print_styles', 			array( 'HC_IO', 			'set_admin_em_styles'	) );
+			add_filter( 'em_deactivate', 				    array( 'EM_ROBBY', 	    'set_deactivation' 		) );
+			add_action( 'em_events_admin_bookings_footer',  array( 'HC_Admin',		'get_tickets_form' 		) );
+			add_action( 'admin_print_styles', 			    array( 'HC_IO', 		'set_admin_em_styles'	) );
 
 			$null = array();
 
@@ -56,7 +56,7 @@ final class HC_IO
 
 	private static function get_root()
 	{
-		return ( ( $_SERVER[ 'HTTP_HOST' ] == 'localhost' )? HC_Constants::HYPECAL_DEV : HC_Constants::HYPECAL_WEBSITE );
+		return ( ( $_SERVER[ 'HTTP_HOST' ] == 'localhost' )? HC_Constants::ROBBY_DEV : HC_Constants::ROBBY_WEBSITE );
 	}
 
 	public static function get_geo()
@@ -77,6 +77,7 @@ final class HC_IO
 
 	private static function set_common_scripts()
 	{
+		$API_credentials_ = HC_Database::get();
 		$l = @get_bloginfo( 'language' );
 		$language = strtolower( $l{0}.$l{1} );
 
@@ -84,11 +85,31 @@ final class HC_IO
 		$geo_ = self::get_geo();
 
 		wp_enqueue_script(  'google-map', 			'//maps.googleapis.com/maps/api/js?v=3.exp&sensor=false&libraries=places' );
-		wp_enqueue_script(  'hc-global-libs', 		$root . '/assets/js/commons/hc.dependencies.global.min.js', FALSE, EM_HYPECAL_VERSION, TRUE );
-		wp_enqueue_script(  'hc-global', 			$root . '/assets/js/commons/hc.global.js', 					FALSE, EM_HYPECAL_VERSION, TRUE );
+		wp_enqueue_script(  'hc-global-libs', 		$root . '/assets/js/commons/hc.dependencies.global.min.js', FALSE, EM_ROBBY_VERSION, TRUE );
+
+		if (EM_ROBBY_DEBUG == FALSE)
+		{
+		    wp_enqueue_script(  'hc-global', 		$root . '/assets/js/hc.js', 								FALSE, EM_ROBBY_VERSION, TRUE );
+        }
+        else
+        {
+            wp_enqueue_script(  'hc-global',        $root . '/assets/js/commons/hc.global.js',                  FALSE, EM_ROBBY_VERSION, TRUE );
+            wp_enqueue_script(  'hc-tool',          $root . '/assets/js/commons/hc.tool.js',                    FALSE, EM_ROBBY_VERSION, TRUE );
+            wp_enqueue_script(  'hc-web',           $root . '/assets/js/commons/hc.web.js',                     FALSE, EM_ROBBY_VERSION, TRUE );
+            wp_enqueue_script(  'hc-facebook',      $root . '/assets/js/commons/hc.facebook.js',                FALSE, EM_ROBBY_VERSION, TRUE );
+            wp_enqueue_script(  'hc-orders',        $root . '/assets/js/commons/hc.orders.js',                  FALSE, EM_ROBBY_VERSION, TRUE );
+            wp_enqueue_script(  'hc-attendees',     $root . '/assets/js/account/account_attendees.js',          FALSE, EM_ROBBY_VERSION, TRUE );
+            wp_enqueue_script(  'hc-details',       $root . '/assets/js/account/account_details.js',            FALSE, EM_ROBBY_VERSION, TRUE );
+            wp_enqueue_script(  'hc-events',        $root . '/assets/js/account/account_events.js',             FALSE, EM_ROBBY_VERSION, TRUE );
+            wp_enqueue_script(  'hc-finance',       $root . '/assets/js/account/account_finance.js',            FALSE, EM_ROBBY_VERSION, TRUE );
+            wp_enqueue_script(  'hc-services',      $root . '/assets/js/account/account_services.js',           FALSE, EM_ROBBY_VERSION, TRUE );
+            wp_enqueue_script(  'hc-setup',         $root . '/assets/js/account/account_setup.js',              FALSE, EM_ROBBY_VERSION, TRUE );
+            wp_enqueue_script(  'hc-taxes',         $root . '/assets/js/account/account_taxes.js',              FALSE, EM_ROBBY_VERSION, TRUE );
+            wp_enqueue_script(  'hc-tickets',       $root . '/assets/js/account/account_tickets.js',            FALSE, EM_ROBBY_VERSION, TRUE );
+        }
 
 		wp_localize_script( 'hc-global', 'Geo', apply_filters( 'hc_wp_localize_script', array(
-			'IP' 			=> @$_SERVER['SERVER_ADDR'],
+			'IP' 			=> ( ( @count( $API_credentials_ ) > 0 )? $API_credentials_[0][ 'api_token' ] : @$_SERVER[ 'SERVER_ADDR' ] ),
 			'country_code'	=> $geo_[ 'country_code' ],
 			'city'			=> $geo_[ 'city' ],
 			'lat'			=> $geo_[ 'lat' ],
@@ -96,48 +117,45 @@ final class HC_IO
 		) ) );
 
 		wp_localize_script( 'hc-global', 'global_vars', apply_filters( 'hc_wp_localize_script', array(
-			'CORS' 		=> TRUE,
-			'HC_DOM'	=> ( ( $_SERVER[ 'HTTP_HOST' ] == 'localhost' )? HC_Constants::HYPECAL_DEV : HC_Constants::HYPECAL_WEBSITE ),
-			'HC_ROOT_ASSETS' => EM_HYPECAL_DIR_URI . 'assets/',
-			'ROOT' 		=> EM_HYPECAL_PROTOCOL . @$_SERVER[ 'HTTP_HOST' ] . ( ( $_SERVER[ 'HTTP_HOST' ] == 'localhost' )? ':8080' : '' ),
-			'SELF' 		=> @$_SERVER[ 'REQUEST_URI' ],
-			'API'  		=> admin_url( 'admin-ajax.php' ),
-			'LANG' 		=> $language
+			'CORS' 		     => TRUE,
+			'HC_DOM'	     => ( ( $_SERVER[ 'HTTP_HOST' ] == 'localhost' )? HC_Constants::ROBBY_DEV : HC_Constants::ROBBY_WEBSITE ),
+			'HC_ROOT_ASSETS' => EM_ROBBY_DIR_URI . 'assets/',
+			'IMG'            => '/assets/img/',
+			'ROOT' 		     => EM_ROBBY_PROTOCOL . @$_SERVER[ 'HTTP_HOST' ] . ( ( $_SERVER[ 'HTTP_HOST' ] == 'localhost' )? ':8080' : '' ),
+			'SELF' 		     => @$_SERVER[ 'REQUEST_URI' ],
+			'API'  		     => admin_url( 'admin-ajax.php' ),
+			'LANG' 		     => $language
 		) ) );
 	}
 
 	public static function set_admin_event_scripts()
 	{
 		$root = self::get_root();
-		self::set_common_scripts();
-		wp_enqueue_script(  'hc-account-libs', 		$root . '/assets/js/commons/hc.dependencies.account.min.js',FALSE, EM_HYPECAL_VERSION, TRUE );
-		wp_enqueue_script(  'hc-events-libs', 		$root . '/assets/js/commons/hc.dependencies.events.min.js',	FALSE, EM_HYPECAL_VERSION, TRUE );
-		wp_enqueue_script(  'hc-event-edit', 		$root . '/assets/js/popups/events/popup_event_edit.js', 	FALSE, EM_HYPECAL_VERSION, TRUE );
-		wp_enqueue_script(  'hc-account-tickets', 	$root . '/assets/js/account/account_tickets.js', 			FALSE, EM_HYPECAL_VERSION, TRUE );
-		wp_enqueue_script(  'hc-account-taxes', 	$root . '/assets/js/account/account_taxes.js', 				FALSE, EM_HYPECAL_VERSION, TRUE );
-		wp_enqueue_script(  'hc-account-events', 	$root . '/assets/js/account/account_events.js', 			FALSE, EM_HYPECAL_VERSION, TRUE );
-		wp_enqueue_script(  'hc-admin-events', EM_HYPECAL_DIR_URI . 'assets/js/hc_admin_events.js', 			FALSE, EM_HYPECAL_VERSION, TRUE );
+
+		wp_enqueue_script( 'hc-account-libs', 		$root . '/assets/js/commons/hc.dependencies.account.min.js',FALSE, EM_ROBBY_VERSION, TRUE );
+		wp_enqueue_script( 'hc-events-libs', 		$root . '/assets/js/commons/hc.dependencies.events.min.js',	FALSE, EM_ROBBY_VERSION, TRUE );
+        self::set_common_scripts();
+		wp_enqueue_script( 'hc-event-edit', 		$root . '/assets/js/popups/events/popup_event_edit.js', 	FALSE, EM_ROBBY_VERSION, TRUE );
+		wp_enqueue_script( 'hc-admin-events',       EM_ROBBY_DIR_URI . 'assets/js/hc_admin_events.js', 			FALSE, EM_ROBBY_VERSION, TRUE );
+        wp_enqueue_script( 'hc-ga',                 EM_ROBBY_DIR_URI . 'assets/js/ga.js',                       FALSE, EM_ROBBY_VERSION, TRUE );
 	}
 
 	public static function set_admin_bookings_scripts()
 	{
 		$root = self::get_root();
-		self::set_common_scripts();
-		wp_enqueue_script(  'hc-account-libs', 		$root . '/assets/js/commons/hc.dependencies.account.min.js',FALSE, EM_HYPECAL_VERSION, TRUE );
-		wp_enqueue_script(  'hc-account-tickets', 	$root . '/assets/js/account/account_tickets.js', 			FALSE, EM_HYPECAL_VERSION, TRUE );
-		wp_enqueue_script(  'hc-account-finance', 	$root . '/assets/js/account/account_finance.js', 			FALSE, EM_HYPECAL_VERSION, TRUE );
-		//wp_enqueue_script(  'hc-account-taxes', 	$root . '/assets/js/account/account_taxes.js', 				FALSE, EM_HYPECAL_VERSION, TRUE );
-		wp_enqueue_script(  'hc-account-attendees', $root . '/assets/js/account/account_attendees.js', 			FALSE, EM_HYPECAL_VERSION, TRUE );
-		wp_enqueue_script(  'hc-admin-bookings', EM_HYPECAL_DIR_URI . 'assets/js/hc_admin_bookings.js', 		FALSE, EM_HYPECAL_VERSION, TRUE );
+
+		wp_enqueue_script( 'hc-account-libs', 		$root . '/assets/js/commons/hc.dependencies.account.min.js',FALSE, EM_ROBBY_VERSION, TRUE );
+        self::set_common_scripts();
+		wp_enqueue_script( 'hc-admin-bookings',     EM_ROBBY_DIR_URI . 'assets/js/hc_admin_bookings.js',        FALSE, EM_ROBBY_VERSION, TRUE );
+        wp_enqueue_script( 'hc-ga',                 EM_ROBBY_DIR_URI . 'assets/js/ga.js',                       FALSE, EM_ROBBY_VERSION, TRUE );
 	}
 
 	public static function set_web_scripts()
 	{
 		$root = self::get_root();
 		self::set_common_scripts();
-		wp_enqueue_script(  'hc-dependencies-order', $root . '/assets/js/commons/hc.dependencies.orders.min.js', FALSE, EM_HYPECAL_VERSION, TRUE );
-		wp_enqueue_script(  'hc-global-order', 		 $root . '/assets/js/commons/hc.orders.js', 				 FALSE, EM_HYPECAL_VERSION, TRUE );
-		wp_enqueue_script(  'hc-order', 			 EM_HYPECAL_DIR_URI . 'assets/js/hc_order.js', 				 FALSE, EM_HYPECAL_VERSION, TRUE );
+		wp_enqueue_script(  'hc-dependencies-order', $root . '/assets/js/commons/hc.dependencies.orders.min.js', FALSE, EM_ROBBY_VERSION, TRUE );
+		wp_enqueue_script(  'hc-order', 			 EM_ROBBY_DIR_URI . 'assets/js/hc_order.js', 				 FALSE, EM_ROBBY_VERSION, TRUE );
 	}
 
 
@@ -146,42 +164,42 @@ final class HC_IO
 
 	public static function set_admin_em_styles()
 	{
-		wp_enqueue_style( 'hc-admin-em', EM_HYPECAL_DIR_URI. 'assets/css/hc_admin_em.css', FALSE, EM_HYPECAL_VERSION, 'all' );
+		wp_enqueue_style( 'hc-admin-em', EM_ROBBY_DIR_URI. 'assets/css/hc_admin_em.css', FALSE, EM_ROBBY_VERSION, 'all' );
 	}
 
 	private static function get_common_style()
 	{
 		$root = self::get_root();
-		wp_enqueue_style( 'font-awesome', ( ( $_SERVER[ 'HTTP_HOST' ] == 'localhost' )? $root . '/assets/css/ext/font-awesome.min.css' : '//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css' ), FALSE, EM_HYPECAL_VERSION, FALSE );
-		wp_enqueue_style( 'hc-jquery-ui', $root . '/assets/css/ext/jquery-ui-1.10.0.custom.css',	FALSE, EM_HYPECAL_VERSION, FALSE );
-		wp_enqueue_style( 'hc-global-ui', $root . '/assets/css/commons/hc.dependencies.global.css',	FALSE, EM_HYPECAL_VERSION, FALSE );
+		wp_enqueue_style( 'font-awesome', ( ( $_SERVER[ 'HTTP_HOST' ] == 'localhost' )? $root . '/assets/css/ext/font-awesome.min.css' : '//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css' ), FALSE, EM_ROBBY_VERSION, FALSE );
+		wp_enqueue_style( 'hc-jquery-ui', $root . '/assets/css/ext/jquery-ui-1.10.0.custom.css',	FALSE, EM_ROBBY_VERSION, FALSE );
+		wp_enqueue_style( 'hc-global-ui', $root . '/assets/css/commons/hc.dependencies.global.css',	FALSE, EM_ROBBY_VERSION, FALSE );
 	}
 
 	public static function set_admin_bookings_styles()
 	{
 		$root = self::get_root();
 		self::get_common_style();
-		wp_enqueue_style( 'hc-global',			$root . '/assets/css/commons/hc.global.css',				FALSE, EM_HYPECAL_VERSION, FALSE );
-		wp_enqueue_style( 'hc-account-setup',	$root . '/assets/css/account/account_setup.css',			FALSE, EM_HYPECAL_VERSION, FALSE );
-		wp_enqueue_style( 'hc-account-events',	$root . '/assets/css/account/account_events.css',			FALSE, EM_HYPECAL_VERSION, FALSE );
-		wp_enqueue_style( 'hc-account-tickets',	$root . '/assets/css/account/account_tickets.css',			FALSE, EM_HYPECAL_VERSION, FALSE );
-		wp_enqueue_style( 'hc-account-finance',	$root . '/assets/css/account/account_finance.css',			FALSE, EM_HYPECAL_VERSION, FALSE );
-		wp_enqueue_style( 'hc-admin', EM_HYPECAL_DIR_URI. 'assets/css/hc_admin.css', 						FALSE, EM_HYPECAL_VERSION, FALSE );
+		wp_enqueue_style( 'hc-global',			$root . '/assets/css/commons/hc.global.css',				FALSE, EM_ROBBY_VERSION, FALSE );
+		wp_enqueue_style( 'hc-account-setup',	$root . '/assets/css/account/account_setup.css',			FALSE, EM_ROBBY_VERSION, FALSE );
+		wp_enqueue_style( 'hc-account-events',	$root . '/assets/css/account/account_events.css',			FALSE, EM_ROBBY_VERSION, FALSE );
+		wp_enqueue_style( 'hc-account-tickets',	$root . '/assets/css/account/account_tickets.css',			FALSE, EM_ROBBY_VERSION, FALSE );
+		wp_enqueue_style( 'hc-account-finance',	$root . '/assets/css/account/account_finance.css',			FALSE, EM_ROBBY_VERSION, FALSE );
+		wp_enqueue_style( 'hc-admin',           EM_ROBBY_DIR_URI. 'assets/css/hc_admin.css', 		        FALSE, EM_ROBBY_VERSION, FALSE );
 	}
 
 	public static function set_admin_event_styles()
 	{
 		$root = self::get_root();
 		self::get_common_style();
-		wp_enqueue_style( 'hc-account-events-edit',	$root. '/assets/css/popups/events/popup_event_edit.css',FALSE, EM_HYPECAL_VERSION, FALSE );
-		wp_enqueue_style( 'hc-admin', EM_HYPECAL_DIR_URI. 'assets/css/hc_admin.css', 						FALSE, EM_HYPECAL_VERSION, FALSE );
+		wp_enqueue_style( 'hc-account-events-edit',	$root. '/assets/css/popups/events/popup_event_edit.css',FALSE, EM_ROBBY_VERSION, FALSE );
+		wp_enqueue_style( 'hc-admin',               EM_ROBBY_DIR_URI. 'assets/css/hc_admin.css', 		    FALSE, EM_ROBBY_VERSION, FALSE );
 	}
 
 	public static function set_web_styles()
 	{
 		$root = self::get_root();
 		self::get_common_style();
-		wp_enqueue_style( 'hc-order', EM_HYPECAL_DIR_URI. 'assets/css/hc_order.css', 						FALSE, EM_HYPECAL_VERSION, 'all' );
+		wp_enqueue_style( 'hc-order', EM_ROBBY_DIR_URI. 'assets/css/hc_order.css', 						FALSE, EM_ROBBY_VERSION, 'all' );
 	}
 
 
@@ -193,8 +211,8 @@ final class HC_IO
 
 	   	$plugin_pages[ 'bookings' ] = add_submenu_page(
 	   		'edit.php?post_type='.( ( defined( 'EM_POST_TYPE_EVENT' ) )? EM_POST_TYPE_EVENT : 'event' ),
-	   		__('Manage events booking orders, custom tickets, custom forms and attendees','dbem'),
-	   		__('Bookings','dbem'),
+	   		__('Manage events booking orders, custom tickets, custom forms and attendees','em-robby'),
+	   		__('Bookings','em-robby'),
 	   		'list_users',
 	   		HC_Constants::NAME . "-bookings",
 	   		array( 'HC_Admin', 'bookings_page' )
@@ -202,9 +220,9 @@ final class HC_IO
 
 		/*
 		$plugin_pages[ 'sync' ] = add_submenu_page(
-	   		'edit.php?post_type='.( ( defined( 'EM_POST_TYPE_EVENT' ) )? EM_POST_TYPE_EVENT : 'event' ),
-	   		__('Sync events with other events portals','dbem'),
-	   		__('Broadcast','dbem'),
+	   		'edit.php?post_type='.( ( defined( 'EM_POST_TYPE_EVENT' ) )? EM_POST_TYPE_EVENT : 'em-robby' ),
+	   		__('Sync events with other events portals','em-robby'),
+	   		__('Broadcast','em-robby'),
 	   		'list_users',
 	   		HC_Constants::NAME . "-sync",
 	   		array( 'HC_Admin', 'sync_page' )

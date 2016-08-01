@@ -1,4 +1,4 @@
-<?php if ( !EM_HYPECAL_AUTHORIZED ){ die( "Hacking Attempt: ". @$_SERVER[ 'REMOTE_ADDR' ] ); }
+<?php if ( !EM_ROBBY_AUTHORIZED ){ die( "Hacking Attempt: ". @$_SERVER[ 'REMOTE_ADDR' ] ); }
 
 define('HTTP_CLIENT_ERROR_UNSPECIFIED_ERROR',       -1);
 define('HTTP_CLIENT_ERROR_NO_ERROR',                 0);
@@ -21,7 +21,7 @@ final class HC_HTTP
 
 	var $protocol="http";
 	var $request_method="GET";
-	var $user_agent='httpclient (https://www.hypecal.com/httpclient $Revision: 1.90 $)';
+	var $user_agent='httpclient (https://robby.ai/httpclient $Revision: 1.90 $)';
 	var $accept='';
 	var $authentication_mechanism="";
 	var $user;

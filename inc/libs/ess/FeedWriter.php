@@ -20,7 +20,7 @@ require_once( 'EventFeed.php' );
   */
 final class FeedWriter
 {
-	const LIBRARY_VERSION	= '1.4';	// GitHub library versioning control.
+	const LIBRARY_VERSION	= '1.5';	// GitHub library versioning control.
 	const ESS_VERSION		= '0.9'; 	// ESS Feed version.
 	const CHARSET			= 'UTF-8';	// Defines the encoding Chartset for the whole document and the value inserted.
 	public $lang			= 'en';		// Default 2 chars language (ISO 3166-1).
@@ -666,7 +666,7 @@ final class FeedWriter
 			$this->t(1) . 'ESS Feed (Event Standard Syndication)' . self::LN .
 			self::LN .
 			$this->t(1) . 'Your events are now available to any software that read ESS format, example:' . self::LN .
-			$this->t(2) . 'http://hypecal.com          '.$this->t(1).' (Events Search Engine)' . self::LN .
+			$this->t(2) . 'http://robby.ai             '.$this->t(1).' (AI Calendar Assistant)'  . self::LN .
 			$this->t(2) . 'http://wp-events-plugin.com '.$this->t(1).' (Wordpress Event Plugin)' . self::LN .
 			self::LN .
 			$this->t(1) . 'Standard info:   '.$this->t(1).' http://essfeed.org/' . self::LN .
@@ -736,7 +736,7 @@ final class FeedWriter
 			if ( in_array( $tagName, $CDATA ) ||
 				 $tagName == 'published' ||
 				 $tagName == 'updated' ||
-				 $tagName == 'value' )			{ $nodeText .= $tagContent; }
+				 $tagName == 'value' )			{ $nodeText .= self::utf8_for_xml( $tagContent ); }
 			else if ( $tagName == 'start' ) 	{ $nodeText .= self::getISODate( $tagContent ); }
 			else if ( $tagName == 'link' ||
 					  $tagName == 'uri' )		{ $nodeText .= htmlspecialchars( $tagContent, ENT_QUOTES, self::CHARSET, FALSE ); }
@@ -753,6 +753,25 @@ final class FeedWriter
 
 		return $nodeText . self::LN;
 	}
+
+    /**
+     * convert unsuported UTF-8 chars within XML <[CDATA[...]]>.
+     *
+     * @access   private
+     * @return   String
+     */
+    private static function utf8_for_xml($string)
+    {
+        if ( function_exists( 'mb_convert_encoding' ) )
+        {
+            $textORG = $string;
+            $string = mb_convert_encoding( $string, self::CHARSET, "auto" );
+
+            if ( strlen( $string ) <= 0 )
+                $string = $textORG;
+        }
+        return preg_replace ('/[^\x{0009}\x{000a}\x{000d}\x{0020}-\x{D7FF}\x{E000}-\x{FFFD}]+/u', ' ', $string);
+    }
 
 	/**
 	 * Get Channel XML content in String format
@@ -981,11 +1000,6 @@ final class FeedWriter
 
 	public static function get_geo()
 	{
-		$_lat 			= "";
-		$_lng 			= "";
-		$city 			= "";
-		$country_code 	= "";
-
 		// if the essfeed library is placed on a Google App Engine server
 		if ( isset( $_SERVER[ 'HTTP_X_APPENGINE_CITYLATLONG' ] ) )
 		{
@@ -1007,8 +1021,10 @@ final class FeedWriter
 		}
 		else
 		{
-			$_lat = 0;
-			$_lng = 0;
+			$_lat         = 0;
+			$_lng         = 0;
+            $city         = "";
+            $country_code = "";
 		}
 		return array(
 			'lat' 			=> $_lat,
@@ -1019,8 +1035,8 @@ final class FeedWriter
 	}
 
 
-	public static $AGGREGATOR_WS = "http://www.hypecal.com/api/v1/ess/aggregator.json";
-	public static $VALIDATOR_WS  = 'http://www.hypecal.com/api/v1/ess/validator.json';
+	public static $AGGREGATOR_WS = "http://www.robby.ai/api/v1/ess/aggregator.json";
+	public static $VALIDATOR_WS  = 'http://www.robby.ai/api/v1/ess/validator.json';
 
 	public function pushToAggregators( $feedURL='', $feedData=NULL )
 	{

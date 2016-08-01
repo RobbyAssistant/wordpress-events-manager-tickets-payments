@@ -1,6 +1,6 @@
 var hc_admin_event =
 {
-	init : function(e)
+	init : function( e )
 	{
 		hc_admin_event.set_datagrid();
 	},
@@ -30,4 +30,4 @@ var hc_admin_event =
 	}
 
 };
-jQuery( document ).ready( function( e ) { hc_admin_event.init( e ); });
+jQuery( document ).ready( hc_admin_event.init );

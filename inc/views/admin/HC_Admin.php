@@ -1,11 +1,11 @@
-<?php if ( !EM_HYPECAL_AUTHORIZED ){ die( "Hacking Attempt: ". @$_SERVER[ 'REMOTE_ADDR' ] ); }
+<?php if ( !EM_ROBBY_AUTHORIZED ){ die( "Hacking Attempt: ". @$_SERVER[ 'REMOTE_ADDR' ] ); }
 /**
   * View HC_Admin
   * Container of all the structure of the admin page to manage the ESS settings.
   *
-  * @author  	Hypecal.com
-  * @copyright 	Copyright Hypecal.com
-  * @license   	https://www.hypecal.com/terms/
+  * @author  	Robby.ai
+  * @copyright 	Copyright Robby.ai
+  * @license   	https://www.robby.ai/terms/
   */
 class HC_Admin
 {
@@ -13,7 +13,7 @@ class HC_Admin
 
 	// -- Commons
 	protected static $dashboard_	= array();
-	protected static $HYPECAL_SYNC	= FALSE;
+	protected static $ROBBY_SYNC	= FALSE;
 
 	// -- Booking pages
 	protected static $orders_stats	= NULL;
@@ -23,7 +23,7 @@ class HC_Admin
 	protected static $custom_tickets= NULL;
 	protected static $custom_forms	= NULL;
 
-	// -- Hypecal events sync pages
+	// -- ROBBY events sync pages
 	protected static $events_stats	= NULL;
 
 	// -- Edit event page
@@ -32,15 +32,15 @@ class HC_Admin
 
 	private static function get_billing_data()
 	{
-		$EM_SYNC 			= defined( 'EM_ESS_VERSION' );
-		$ESS_SYNC			= defined( 'EM_DIR' );
-		self::$HYPECAL_SYNC = FALSE;
+		$EM_SYNC 		  = defined( 'EM_ESS_VERSION' );
+		$ESS_SYNC		  = defined( 'EM_DIR' );
+		self::$ROBBY_SYNC = FALSE;
 
 		if ( $EM_SYNC == TRUE && $ESS_SYNC == TRUE )
 		{
 			if ( @count( HC_Database::get() ) > 0 )
 			{
-				self::$HYPECAL_SYNC = TRUE;
+				self::$ROBBY_SYNC = TRUE;
 
 				global $HC_Notices;
 				$api = new HC_API();
@@ -96,8 +96,8 @@ class HC_Admin
 		self::$dashboard_ = array(
 			'ESS'				=> $EM_SYNC,
 			'EVENTS_MANAGER' 	=> $ESS_SYNC,
-			'HYPECAL_SYNC'		=> self::$HYPECAL_SYNC,
-			'EVENTS'			=> ( ( @self::$events_stats->TOTAL <=0 	)? FALSE : TRUE ),
+			'ROBBY_SYNC'		=> self::$ROBBY_SYNC,
+			'EVENTS'			=> ( ( @self::$events_stats->TOTAL <= 0 )? FALSE : TRUE ),
 			'BANK'				=> ( ( self::$bank 				== NULL )? FALSE : TRUE ),
 			'TAXPAYER'			=> ( ( self::$taxpayer 			== NULL )? FALSE : TRUE ),
 			'BILLING'			=> ( ( self::$billing 			== NULL )? FALSE : TRUE ),
@@ -111,11 +111,11 @@ class HC_Admin
 
 	private static function get_event_sync_data()
 	{
-		self::$HYPECAL_SYNC = FALSE;
+		self::$ROBBY_SYNC = FALSE;
 
 		if ( @count( HC_Database::get() ) > 0 )
 		{
-			self::$HYPECAL_SYNC = TRUE;
+			self::$ROBBY_SYNC = TRUE;
 
 			$api = new HC_API();
 
@@ -129,18 +129,17 @@ class HC_Admin
 
 	private static function get_event_edit_data()
 	{
-		$API_credentials_ 	= HC_Database::get();
-		self::$HYPECAL_SYNC = FALSE;
-
+		$API_credentials_ = HC_Database::get();
+		self::$ROBBY_SYNC = FALSE;
 		//d( $API_credentials_ );
 
 		if ( @count( $API_credentials_ ) > 0 )
 		{
-			self::$HYPECAL_SYNC = TRUE;
+			self::$ROBBY_SYNC = TRUE;
 
 			global $EM_Event;
 
-			// set event UID from server host name + local Event Manager's eventID
+			// -- set event UID from server host name + local Event Manager's eventID
 			$uid = ( ( strlen( @$_SERVER[ 'SERVER_NAME' ] ) > 0 )? $_SERVER[ 'SERVER_NAME' ] : @$_SERVER[ 'HTTP_HOST' ] ) . ":" . $EM_Event->event_id;
 			$essFeed = new FeedWriter();
 			$newEvent = $essFeed->newEventFeed();
@@ -149,16 +148,16 @@ class HC_Admin
 			//d( $uid, $newEvent->getId(), $EM_Event );
 
 			$api = new HC_API();
-			$r = $api->call( 'events/get_ids.json', array( 'id' => $newEvent->getId() ) );
+			$r = $api->call( 'events/get_ids.json', array( 'id' => $newEvent->getId(), 'api_token' => $API_credentials_[0][ 'api_token' ] ) );
 			self::$event_ids = ( ( isset( $r->result ) )? @$r->result : NULL );
-			//d( self::$event_ids );
+			//d( $EM_Event->event_id, self::$event_ids );
 
-			// if event doesn't exists on Hypecal push the current EM_Event object as a new event
+			// -- if the event doesn't exists in ROBBY, push the current EM_Event object as a new event
 			if ( intval( self::$event_ids->eventID ) <= 0 )
 			{
 				if ( ESS_IO::set_event_saved_filter( TRUE ) )
 				{
-					$r = $api->call( 'events/get_ids.json', array( 'id' => $newEvent->getId() ) );
+					$r = $api->call( 'events/get_ids.json', array( 'id' => $newEvent->getId(), 'api_token' => $API_credentials_[0][ 'api_token' ]  ) );
 					self::$event_ids = ( ( isset( $r->result ) )? @$r->result : NULL );
 					//d( self::$event_ids );
 				}
@@ -178,8 +177,8 @@ class HC_Admin
 		{
 			?><div class="contain re">
 				<section class="line btnav nav_btns" style="display:none;">
-					<a class="btn confirm tooltip internal_popup" data-popup="ticket_edit" title="Create a ticket"><i class="fa fa-plus"></i></a>
-					<a class="btn cancel tooltip internal_popup" data-popup="tax_edit" title="Edit tax options"><i class="fa fa-cog"></i></a>
+					<a class="btn confirm tooltip internal_popup" data-popup="ticket_edit" title="Create a ticket"><i class="fa hc-plus"></i></a>
+					<a class="btn cancel tooltip internal_popup" data-popup="tax_edit" title="Edit tax options"><i class="fa hc-setting"></i></a>
 					<span class='bt_tableTools'></span>
 				</section>
 				<table id="edit-event-prices-grid" data-encryptedID="<?php echo @self::$event_ids->encryptedID; ?>" class="display" cellpadding="0" cellspacing="0" width="100%" style="display:none;"></table>
@@ -189,13 +188,13 @@ class HC_Admin
 		}
 		else
 		{
-			if ( self::$HYPECAL_SYNC == TRUE )
+			if ( self::$ROBBY_SYNC == TRUE )
 			{
-				?><div><h3 class="orange"><?php _e('You must "Save Draft" or "Publish" this event first to be able to define tickets','dbem'); ?></h3></div><?php
+				?><div><h3 class="orange"><?php _e('You must "Save Draft" or "Publish" this event first to be able to define tickets','em-robby'); ?></h3></div><?php
 			}
 			else
 			{
-				?><div><h3 class="orange"><?php _e('You must "Sync" your Wordpress website withe Hypecal.com','dbem'); ?> <a href="<?php echo admin_url();?>edit.php?post_type=<?php _e( defined( 'EM_POST_TYPE_EVENT' )? EM_POST_TYPE_EVENT : 'event', 'dbem' );?>&page=em-hypecal-bookings#general"><?php _e('click here','dbem'); ?></a></h3></div><?php
+				?><div><h3 class="orange"><?php _e('You must "Sync" your Wordpress website withe robby.ai','em-robby'); ?> <a href="<?php echo admin_url();?>edit.php?post_type=<?php _e( defined( 'EM_POST_TYPE_EVENT' )? EM_POST_TYPE_EVENT : 'event', 'em-robby' );?>&page=em-robby-bookings#general"><?php _e('click here','em-robby'); ?></a></h3></div><?php
 			}
 		}
 	}
@@ -210,16 +209,16 @@ class HC_Admin
 
 		$is_activated = ( ( self::$dashboard_[ 'EVENTS_MANAGER' ] == TRUE &&
 					 	  	self::$dashboard_[ 'ESS' 		 	] == TRUE &&
-					 	  	self::$dashboard_[ 'HYPECAL_SYNC'   ] == TRUE
+					 	  	self::$dashboard_[ 'ROBBY_SYNC'   ] == TRUE
 						)? TRUE : FALSE );
 
 		?><div class="wrap ui-tabs" id="main_tabs">
 			<h2 class="nav-tab-wrapper">
-				<a href="#dashboard" id="em-menu-dashboard" class="nav-tab nav-tab-active"><b><?php _e('Dashboard','dbem'); ?></b><i class="fa fa-dashboard"></i></a>
+				<a href="#dashboard" id="em-menu-dashboard" class="nav-tab nav-tab-active"><b><?php _e('Dashboard','em-robby'); ?></b><i class="fa fa-dashboard"></i></a>
 				<?php if ( $is_activated ) { ?>
-					<a href="#orders" id="em-menu-orders" class="nav-tab"><b><?php _e("Orders",'dbem'); ?></b><i class="fa fa-ticket"></i></a>
-					<a href="#custom-tickets" id="em-menu-custom-tickets" class="nav-tab"><b><?php _e("Custom tickets",'dbem'); ?></b><i class="fa fa-ticket"></i></a>
-					<a href="#finance" id="em-menu-finance" class="nav-tab"><b><?php _e('Finance','dbem'); ?></b><i class="fa fa-money"></i></a>
+					<a href="#orders" id="em-menu-orders" class="nav-tab"><b><?php _e("Orders",'em-robby'); ?></b><i class="fa fa-ticket"></i></a>
+					<a href="#custom-tickets" id="em-menu-custom-tickets" class="nav-tab"><b><?php _e("Custom tickets",'em-robby'); ?></b><i class="fa fa-ticket"></i></a>
+					<a href="#finance" id="em-menu-finance" class="nav-tab"><b><?php _e('Finance','em-robby'); ?></b><i class="fa fa-money"></i></a>
 				<?php } ?>
 			</h2>
 			<?php echo $HC_Notices; ?>
@@ -250,14 +249,14 @@ class HC_Admin
 
 		$is_activated = ( ( self::$dashboard_[ 'EVENTS_MANAGER' ] == TRUE &&
 					 	  	self::$dashboard_[ 'ESS' 			] == TRUE &&
-					 	  	self::$dashboard_[ 'HYPECAL_SYNC'   ] == TRUE
+					 	  	self::$dashboard_[ 'ROBBY_SYNC'   ] == TRUE
 						)? TRUE : FALSE );
 
 		?><div class="wrap ui-tabs" id="main_tabs">
 			<h2 class="nav-tab-wrapper">
 				<?php if ( $is_activated ) { ?>
-					<a href="#events" id="em-menu-events" class="nav-tab"><b><?php _e("Events",'dbem'); ?></b><i class="fa fa-calendar-o"></i></a>
-					<a href="#services" id="em-menu-services" class="nav-tab"><b><?php _e("Services",'dbem'); ?></b><i class="fa fa-exchange"></i></a>
+					<a href="#events" id="em-menu-events" class="nav-tab"><b><?php _e("Events",'em-robby'); ?></b><i class="fa fa-calendar-o"></i></a>
+					<a href="#services" id="em-menu-services" class="nav-tab"><b><?php _e("Services",'em-robby'); ?></b><i class="fa fa-exchange"></i></a>
 				<?php } ?>
 			</h2>
 			<?php echo $HC_Notices; ?>
