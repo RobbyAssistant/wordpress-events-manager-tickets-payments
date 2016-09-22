@@ -2,8 +2,8 @@
 Contributors: robbyassistant, essfeed, Brice Pissard
 Tags: events, event, event registration, ticket, tickets, ticketing, payment, sell,registration,attendees,event calendar, events calendar, event management, events manager,locations, maps,tax,vat,taxpayer,bank,bank transfer,calendar,happenings, concerts, meetings, festivals,sport,diary,availability,eventbrite,eventful,meetup,facebook,twitter,feedbuzz,foursquare,timeout,event publishers,google,indexation,high ranking,visibility,broadcast, schedule, SEO, booking,billet,billete,places, venue, upcoming, diary, ical, icalendar, organizer, planner,social events,social gatherings,cultural,museum,expo,cinema,movies,theatre,gallery,show,performance,concert,jazz,festival,exhibition,contact,CRM,system,ticket system,ticketing service,door control,qrcode,barcode,ticket scanner,appointments, seminar, summit,wooevents, workshop,woocommerce,e-tickets,widget,customer,buyer,seller,mastercard,visa,paypal,dinners,google checkout,donations
 Requires at least: 3.2.1
-Tested up to: 4.5.3
-Stable tag: 1.4.1
+Tested up to: 4.6.1
+Stable tag: 1.4.3
 Text Domain: em-robby
 Domain Path: /languages
 License: GPLv2 or later
@@ -86,6 +86,10 @@ You'll find the bug tracking in: [github.com issues](https://github.com/RobbyAss
 
 
 == Changelog ==
+
+= 1.4.3 =
+* Fix a bug on deployment on localhost server.
+* Add the Kint library for localhost debugging.
 
 = 1.4.1 =
 * Setup the translation framework to allows text conversion by thirdparty.

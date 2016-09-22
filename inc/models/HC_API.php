@@ -10,7 +10,7 @@
 final class HC_API extends HC_OAuth2
 {
 	var $client_id 			= '1/lB0uoIL16dlip0RT/tUg==';
-	var $client_secret		= 'y70Km03ZAH6Hhc,EPdIdtQ=='; // 'DWa3TCDETKOcSMBFpy8zNw==';
+	var $client_secret		= 'y70Km03ZAH6Hhc,EPdIdtQ==';
 	var $redirect_uri		= '';
 
 	var $oauth_version 		= '2.0';
@@ -23,6 +23,9 @@ final class HC_API extends HC_OAuth2
 	var $debug 				= TRUE;
 	var $debug_http 		= TRUE;
 	var $session_started 	= FALSE;
+
+    public static $METHOD_POST = 'POST';
+    public static $METHOD_GET  = 'GET';
 
 	private static $client = NULL;
 
@@ -114,12 +117,14 @@ final class HC_API extends HC_OAuth2
 		return $success;
 	}
 
-	public static function call( $service, Array $params_ = NULL, $action = 'GET', $contentType = 'application/json' )
+	public static function call( $service, Array $params_ = NULL, $method = 'GET', $contentType = 'application/json' )
 	{
 		$el = NULL;
 
 		if ( self::$client == NULL )
+		{
 			self::$client = new HC_API;
+        }
 
 		$local_ = HC_Database::get();
 		$local_ = @$local_[0];
@@ -144,7 +149,7 @@ final class HC_API extends HC_OAuth2
 
 				if ( @count( (isset($_FILES[ 'files' ])? $_FILES[ 'files' ] : array()) ) > 0 )
 				{
-					$action = 'POST';
+					$method = self::$METHOD_POST;
 					$options_[ 'RequestContentType' ] = 'multipart/form-data';
 					$options_[ 'Files' ] = array();
 
@@ -159,8 +164,8 @@ final class HC_API extends HC_OAuth2
 				}
 
 				$success = self::$client->CallAPI(
-					( ( $_SERVER[ 'HTTP_HOST' ] == 'localhost' )? 'http://localhost:8080/api/v1/' : self::ENDPOINT ) . $service,
-					$action,
+					( ( EM_ROBBY_DEBUG == TRUE )? 'http://localhost:8080/api/v1/' : self::ENDPOINT ) . $service,
+					$method,
 					$params_,
 					$options_,
 					$el

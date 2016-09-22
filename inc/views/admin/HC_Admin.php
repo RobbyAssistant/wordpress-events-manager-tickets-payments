@@ -139,28 +139,48 @@ class HC_Admin
 
 			global $EM_Event;
 
-			// -- set event UID from server host name + local Event Manager's eventID
+			// -- set event UID from server host name + local Event Manager's eventID.
 			$uid = ( ( strlen( @$_SERVER[ 'SERVER_NAME' ] ) > 0 )? $_SERVER[ 'SERVER_NAME' ] : @$_SERVER[ 'HTTP_HOST' ] ) . ":" . $EM_Event->event_id;
 			$essFeed = new FeedWriter();
 			$newEvent = $essFeed->newEventFeed();
 			$newEvent->setId( $uid );
-
 			//d( $uid, $newEvent->getId(), $EM_Event );
 
 			$api = new HC_API();
+
 			$r = $api->call( 'events/get_ids.json', array( 'id' => $newEvent->getId(), 'api_token' => $API_credentials_[0][ 'api_token' ] ) );
 			self::$event_ids = ( ( isset( $r->result ) )? @$r->result : NULL );
 			//d( $EM_Event->event_id, self::$event_ids );
 
-			// -- if the event doesn't exists in ROBBY, push the current EM_Event object as a new event
+
+			// -- if the event doesn't exists in ROBBY, push the current EM_Event object as a new event.
 			if ( intval( self::$event_ids->eventID ) <= 0 )
 			{
-				if ( ESS_IO::set_event_saved_filter( TRUE ) )
+			    // save the event through the feed URL
+				if ( ESS_IO::set_event_saved_filter( TRUE ) == TRUE )
 				{
-					$r = $api->call( 'events/get_ids.json', array( 'id' => $newEvent->getId(), 'api_token' => $API_credentials_[0][ 'api_token' ]  ) );
+					$r = $api->call( 'events/get_ids.json', array( 'id' => $newEvent->getId(), 'api_token' => $API_credentials_[0][ 'api_token' ] ) );
 					self::$event_ids = ( ( isset( $r->result ) )? @$r->result : NULL );
 					//d( self::$event_ids );
 				}
+
+				// otherwise, save by sending the ESS XML raw data through POST.
+				else
+                {
+                    ob_start();
+                    ESS_Feed::output($EM_Event->event_id);
+                    $feed_file = ob_get_contents();
+                    ob_end_clean();
+                    $r = $api->call( 'ess/aggregator.json', array( 'feed_file' => $feed_file ), HC_API::$METHOD_POST );
+                    //d( $feed_file, $r );
+
+                    if ( $r->result->type == 'OK' )
+                    {
+                        $r = $api->call( 'events/get_ids.json', array( 'id' => $newEvent->getId(), 'api_token' => $API_credentials_[0][ 'api_token' ] ) );
+                        self::$event_ids = ( ( isset( $r->result ) )? @$r->result : NULL );
+                        //d( self::$event_ids );
+                    }
+                }
 			}
 		}
 	}
@@ -171,7 +191,8 @@ class HC_Admin
 	 */
 	public static function get_tickets_form()
 	{
-		self::get_event_edit_data();
+	    self::get_event_edit_data();
+        //d(self::$event_ids);
 
 		if ( intval( @self::$event_ids->eventID ) > 0 )
 		{
@@ -194,7 +215,7 @@ class HC_Admin
 			}
 			else
 			{
-				?><div><h3 class="orange"><?php _e('You must "Sync" your Wordpress website withe robby.ai','em-robby'); ?> <a href="<?php echo admin_url();?>edit.php?post_type=<?php _e( defined( 'EM_POST_TYPE_EVENT' )? EM_POST_TYPE_EVENT : 'event', 'em-robby' );?>&page=em-robby-bookings#general"><?php _e('click here','em-robby'); ?></a></h3></div><?php
+				?><div><h3 class="orange"><?php _e('You must "Sync" your Wordpress website with robby.ai','em-robby'); ?> <a href="<?php echo admin_url();?>edit.php?post_type=<?php _e( defined( 'EM_POST_TYPE_EVENT' )? EM_POST_TYPE_EVENT : 'event', 'em-robby' );?>&page=em-robby-bookings#general"><?php _e('click here','em-robby'); ?></a></h3></div><?php
 			}
 		}
 	}

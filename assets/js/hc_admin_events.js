@@ -30,4 +30,4 @@ var hc_admin_event =
 	}
 
 };
-jQuery( document ).ready( hc_admin_event.init );
+jQuery( document ).ready( hc_admin_event.init);

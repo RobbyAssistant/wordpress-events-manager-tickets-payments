@@ -13,8 +13,8 @@ final class HC_Config
 		require_once( EM_ROBBY_DIR .'/inc/libs/HC_HTTP.php' );
 		require_once( EM_ROBBY_DIR .'/inc/libs/HC_OAuth2.php' );
 		require_once( EM_ROBBY_DIR .'/inc/libs/HC_Tools.php' 	);
-		if ( !class_exists( 'kint' 		 ) ) require_once( EM_ROBBY_DIR . "/inc/libs/kint/Kint.class.php" );
-		if ( !class_exists( 'FeedWriter' ) ) require_once( EM_ROBBY_DIR . "/inc/libs/ess/FeedWriter.php" );
+		if ( !class_exists( 'kint' ) && EM_ROBBY_DEBUG) require_once( EM_ROBBY_DIR . "/inc/libs/kint/Kint.class.php" );
+		if ( !class_exists( 'FeedWriter' ) )            require_once( EM_ROBBY_DIR . "/inc/libs/ess/FeedWriter.php"  );
 
 
 		// -- MODELS

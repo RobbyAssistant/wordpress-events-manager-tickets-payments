@@ -6,7 +6,7 @@ if ( !defined( 'EM_ROBBY_DIR'  		   ) ) define( 'EM_ROBBY_DIR', 		   WP_PLUGIN_D
 if ( !defined( 'EM_ROBBY_DIR_URI'  	   ) ) define( 'EM_ROBBY_DIR_URI', 	   trailingslashit( str_replace( '/inc/config', '', plugins_url( '', __FILE__ ) ) ) );
 if ( !defined( 'EM_ROBBY_URL'  		   ) ) define( 'EM_ROBBY_URL', 		   WP_PLUGIN_URL . '/' . EM_ROBBY_NAME );
 
-if ( !defined( 'EM_ROBBY_VERSION'	   ) ) define( 'EM_ROBBY_VERSION', 	   '1.4.1' );
+if ( !defined( 'EM_ROBBY_VERSION'	   ) ) define( 'EM_ROBBY_VERSION', 	   '1.4.3' );
 if ( !defined( 'EM_ROBBY_VERSION_KEY'  ) ) define( 'EM_ROBBY_VERSION_KEY', 'robby_version' );
 if ( !defined( 'EM_ROBBY_DEBUG'        ) ) define( 'EM_ROBBY_DEBUG',       FALSE );
 

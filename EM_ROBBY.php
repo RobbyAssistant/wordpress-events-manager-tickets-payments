@@ -1,7 +1,7 @@
 <?php
 /*
  * Plugin Name: Robby Ticketing System for Events Manager
- * Version: 	1.4.1
+ * Version: 	1.4.3
  * Plugin URI: 	https://www.robby.ai
  * Description: Sell tickets with Events Manager, support any kind of payment cards.
  * Author: 		robbyassistant, essfeed, Brice Pissard
